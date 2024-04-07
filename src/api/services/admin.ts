@@ -1,10 +1,10 @@
-import { AdminsModel } from "../../common/models";
+import { Admin } from "../../common/database/models/index";
 
 export default class AdminsService {
-  constructor(private readonly adminsRepository: typeof AdminsModel) {}
+  constructor(private readonly adminsRepository: typeof Admin) {}
 
-  async findOne(filter: any, params: any) {
-    return this.adminsRepository.findOne(filter, params);
+  async findOne(filter: any, attributes: any) {
+    return this.adminsRepository.findOne({ where: filter, attributes });
   }
   async updateOne(filter: any, data: any) {
     return false;

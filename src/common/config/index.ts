@@ -11,13 +11,19 @@ export default {
   VERSION: process.env.VERSION,
   PORT: process.env.PORT,
 
+  /* Ecryption Secret Keys */
+  ENC_KEY: process.env.ENC_KEY,
+  ENC_IV: process.env.ENC_IV,
+
   /* API configs */
   API_PREFIX: "",
 
-  MONGO_URI: process.env.MONGO_URI,
-  MONGO_USER: process.env.MONGO_USER,
-  MONGO_PASSWORD: process.env.MONGO_PASSWORD,
-  MONGO_HOST: process.env.MONGO_HOST,
-  MONGO_PORT: process.env.MONGO_PORT,
-  MONGO_NAME: process.env.MONGO_NAME,
+  /* PosgreSQL Credentials */
+  DB_HOST: process.env.DB_HOST,
+  DB_USER: process.env.DB_USER,
+  DB_PASSWORD: process.env.DB_PASSWORD,
+  DB_NAME: process.env.DB_NAME,
+  DB_PORT: process.env.DB_PORT,
+
+  SALT_WORK_FACTOR: +process.env.SALT_WORK_FACTOR,
 };

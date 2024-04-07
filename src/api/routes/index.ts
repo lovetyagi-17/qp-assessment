@@ -1,11 +1,12 @@
-import express from "express";
+import { Router } from "express";
+import user from "./user";
+import grocery from "./grocery";
+import admin from "./admin";
 
-import UserRoute from "./users";
-
-const router = express.Router();
-
-// Initialize routes
-const usersRoute = new UserRoute();
-router.use("/users", usersRoute.routes);
-
-export default router;
+export default () => {
+  const app = Router();
+  user(app);
+  grocery(app);
+  admin(app);
+  return app;
+};

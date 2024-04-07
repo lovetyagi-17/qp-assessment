@@ -1,23 +1,23 @@
-import { AdminsModel } from "../../common/models";
 import { statusCode } from "../../common/utils/StatusCodes";
 import { AdminsService } from "../services";
 
-export default class Admins {
+export class Admins {
   adminService;
   constructor() {
-    this.adminService = new AdminsService(AdminsModel);
+    // this.adminService = new AdminsService();
   }
 
-  async login(data: any) {
+  static async login(data: any) {
     try {
-      return { status: statusCode.OK, message: "success" };
+      return { status: statusCode.OK, message: "success", data: data };
     } catch (error) {
       console.error(error);
     }
   }
 
-  async logout(data: any) {
+  static async logout(data: any) {
     try {
+      return { status: statusCode.OK, message: "success", data: data };
     } catch (error) {
       console.error(error);
     }
