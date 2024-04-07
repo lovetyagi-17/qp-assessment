@@ -21,7 +21,7 @@
 // import { UsersModel } from "../../common/models";
 import { statusCode } from "../../common/utils/StatusCodes";
 
-export class Users {
+export class IUsers {
   userService;
   constructor() {
     // this.userService = new UserService(UsersModel);
