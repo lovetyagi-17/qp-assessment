@@ -1,10 +1,8 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
-import bcrypt from "bcryptjs";
 
 import { qpDecrypt, qpEncrypt } from "../../utils/Encryption";
 import config from "../../config";
-
-const SALT_WORK_FACTOR = 10;
+import { Admin } from ".";
 
 export const setEncrypt = (value) =>
   value && value !== ""
@@ -16,26 +14,31 @@ export const getDecrypt = (value) =>
     ? qpDecrypt(value, config.ENC_KEY, config.ENC_IV).toString()
     : "";
 
-export interface AdminAttributes {
+export interface GroceryAttributes {
   id: string;
   name: string;
-  email: string;
-  password: string;
+  description: string;
+  quantity: number;
   isActive: boolean;
+  inStock: boolean;
+  price: number;
+  createdBy: string;
   deletedAt?: Date;
 }
-export interface AdminModel extends Model<AdminAttributes>, AdminAttributes {
+export interface GroceryModel
+  extends Model<GroceryAttributes>,
+    GroceryAttributes {
   prototype: {
     verifyPassword: (password: string) => boolean;
   };
 }
 
-export type AdminStatic = typeof Model & {
-  new (values?: object, options?: BuildOptions): AdminModel;
+export type GroceryStatic = typeof Model & {
+  new (values?: object, options?: BuildOptions): GroceryModel;
 };
 
-export function AdminFactory(sequelize: Sequelize): AdminStatic {
-  const Admin = <AdminStatic>sequelize.define("admins", {
+export function GroceryFactory(sequelize: Sequelize): GroceryStatic {
+  const Grocery = <GroceryStatic>sequelize.define("grocery", {
     id: {
       type: DataTypes.STRING,
       primaryKey: true,
@@ -52,25 +55,37 @@ export function AdminFactory(sequelize: Sequelize): AdminStatic {
         return getValue;
       },
     },
-    email: {
+    description: {
       type: DataTypes.STRING,
-      allowNull: false,
+      defaultValue: "",
       set(value) {
         const setValue: any = setEncrypt(value);
-        this.setDataValue("email", setValue);
+        this.setDataValue("description", setValue);
       },
       get() {
-        const getValue = getDecrypt(this.getDataValue("email"));
+        const getValue = getDecrypt(this.getDataValue("description"));
         return getValue;
       },
     },
-    password: {
-      type: DataTypes.STRING,
+    quantity: {
+      type: DataTypes.NUMBER,
+      defaultValue: 0,
     },
-
     isActive: {
       type: DataTypes.BOOLEAN, // false - In-Active, true - Active
-      defaultValue: false,
+      defaultValue: true,
+    },
+    inStock: {
+      type: DataTypes.BOOLEAN, // false - out-of-stock, true - stock
+      defaultValue: true,
+    },
+    price: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
+      defaultValue: 0.0,
+    },
+    createdBy: {
+      type: DataTypes.STRING,
     },
     deletedAt: {
       type: DataTypes.DATE,
@@ -78,13 +93,11 @@ export function AdminFactory(sequelize: Sequelize): AdminStatic {
     },
   });
 
-  Admin.beforeCreate(async (admin, options) => {
-    if (admin.password) {
-      const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
-      const encryptpassword = await bcrypt.hash(admin.password, salt);
-      admin.password = encryptpassword;
-    }
+  Grocery.belongsTo(Admin, {
+    targetKey: "id",
+    foreignKey: "createdBy",
+    as: "createdByAdmin",
   });
 
-  return Admin;
+  return Grocery;
 }

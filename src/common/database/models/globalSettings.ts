@@ -1,7 +1,4 @@
 import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
-import bcrypt from "bcryptjs";
-
-import config from "../../config";
 
 export interface SettingsAttributes {
   id: string;

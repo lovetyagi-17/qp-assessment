@@ -2,7 +2,7 @@ import { Request, Response, Router } from "express";
 import * as l10n from "jm-ez-l10n";
 
 import { statusCode } from "../../common/utils/StatusCodes";
-import { Users } from "../controller/IUser";
+import { IUsers } from "../controller/IUser";
 
 const route = Router();
 
@@ -14,7 +14,7 @@ export default (app: Router) => {
 
 async function login(req: any, res: Response) {
   const data = req.body;
-  Users.login(data)
+  IUsers.login(data)
     .then((response) => {
       return res.status(response.status).json(response);
     })

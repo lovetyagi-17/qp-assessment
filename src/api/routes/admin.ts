@@ -2,7 +2,7 @@ import { Request, Response, Router } from "express";
 import * as l10n from "jm-ez-l10n";
 
 import { statusCode } from "../../common/utils/StatusCodes";
-import { Admins } from "../controller/IAdmin";
+import { IAdmins } from "../controller/IAdmin";
 import { isAuthAdmin } from "../middleware/authentication";
 import { ADMIN_SCHEMA } from "../schema/admin";
 
@@ -18,7 +18,7 @@ export default (app: Router) => {
 
 async function login(req: any, res: Response) {
   const data = req.body;
-  const admin = new Admins();
+  const admin = new IAdmins();
   admin
     .login(data)
     .then((response) => {
@@ -33,7 +33,7 @@ async function login(req: any, res: Response) {
 }
 
 async function profile(req: any, res: Response) {
-  const admin = new Admins();
+  const admin = new IAdmins();
   admin
     .profile()
     .then((response) => {
@@ -48,7 +48,7 @@ async function profile(req: any, res: Response) {
 }
 
 async function logout(req: any, res: Response) {
-  const admin = new Admins();
+  const admin = new IAdmins();
   admin
     .logout()
     .then((response) => {

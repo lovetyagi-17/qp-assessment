@@ -9,7 +9,7 @@ import { statusCode } from "../../common/utils/StatusCodes";
 import { AdminsService } from "../services";
 import { addToInvalidatedTokens } from "../middleware/tokenManager";
 
-export class Admins {
+export class IAdmins {
   private readonly adminService: AdminsService;
   private readonly helperService: HelperServices;
   constructor() {
