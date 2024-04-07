@@ -15,6 +15,10 @@ export default {
   ENC_KEY: process.env.ENC_KEY,
   ENC_IV: process.env.ENC_IV,
 
+  JWT_TTL: process.env.JWT_TTL,
+  JWT_SECRET: process.env.JWT_SECRET,
+  CIPHER_SECRET: process.env.CIPHER_SECRET,
+
   /* API configs */
   API_PREFIX: "",
 
