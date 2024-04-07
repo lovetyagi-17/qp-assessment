@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    return queryInterface.createTable('grocery', {
+    return queryInterface.createTable('products', {
       id: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -11,7 +11,7 @@ module.exports = {
         primaryKey: true,
       },
       name: { type: Sequelize.STRING, allowNull: false },
-      desciption: { type: Sequelize.STRING, allowNull: false },
+      description: { type: Sequelize.STRING, allowNull: false },
       quantity: { type: Sequelize.INTEGER, allowNull: false, defaultValue: 0 },
       isActive: {
         type: Sequelize.BOOLEAN,
@@ -44,6 +44,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('grocery');
+    await queryInterface.dropTable('products');
   }
 };

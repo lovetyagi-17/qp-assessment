@@ -2,26 +2,27 @@ import { Request, Response, Router } from "express";
 import * as l10n from "jm-ez-l10n";
 
 import { statusCode } from "../../common/utils/StatusCodes";
-import { IGrocery } from "../controller/IGrocery";
-import { GROCERY_SCHEMA } from "../schema/grocery";
+import { IProducts } from "../controller/IProducts";
+import { isAuthAdmin } from "../middleware/authentication";
+import { PRODUCT_SCHEMA } from "../schema/product";
 
 const route = Router();
 
 export default (app: Router) => {
-  app.use("/admin/grocery", route);
+  app.use("/admin/product", route);
 
-  route.post("/", GROCERY_SCHEMA.CREATE, createGrocery);
-  route.get("/", GROCERY_SCHEMA.LIST, getGroceryList);
-  route.get("/:id", GROCERY_SCHEMA.DETAILS, groceryDetails);
-  route.patch("/:id", GROCERY_SCHEMA.UPDATE, updateGrocery);
-  route.delete("/:id", GROCERY_SCHEMA.DETAILS, removeGrocery);
+  route.post("/", isAuthAdmin, PRODUCT_SCHEMA.CREATE, createProduct);
+  route.get("/", isAuthAdmin, PRODUCT_SCHEMA.LIST, getProductList);
+  route.get("/:id", isAuthAdmin, PRODUCT_SCHEMA.DETAILS, productDetails);
+  route.patch("/:id", isAuthAdmin, PRODUCT_SCHEMA.UPDATE, updateProduct);
+  route.delete("/:id", isAuthAdmin, PRODUCT_SCHEMA.DETAILS, removeProduct);
 };
 
-async function createGrocery(req: any, res: Response) {
+async function createProduct(req: any, res: Response) {
   const data = req.body;
-  const grocery = new IGrocery();
-  grocery
-    .createGrocery(data)
+  const product = new IProducts();
+  product
+    .createProduct(data)
     .then((response) => {
       return res.status(response.status).json(response);
     })
@@ -33,11 +34,11 @@ async function createGrocery(req: any, res: Response) {
     });
 }
 
-async function getGroceryList(req: any, res: Response) {
+async function getProductList(req: any, res: Response) {
   const data = req.query;
-  const grocery = new IGrocery();
-  grocery
-    .getGroceryList(data)
+  const product = new IProducts();
+  product
+    .getProductList(data)
     .then((response) => {
       return res.status(response.status).json(response);
     })
@@ -49,11 +50,11 @@ async function getGroceryList(req: any, res: Response) {
     });
 }
 
-async function groceryDetails(req: any, res: Response) {
+async function productDetails(req: any, res: Response) {
   const data = req.params;
-  const grocery = new IGrocery();
-  grocery
-    .groceryDetails(data)
+  const product = new IProducts();
+  product
+    .productDetails(data)
     .then((response) => {
       return res.status(response.status).json(response);
     })
@@ -65,12 +66,12 @@ async function groceryDetails(req: any, res: Response) {
     });
 }
 
-async function updateGrocery(req: any, res: Response) {
+async function updateProduct(req: any, res: Response) {
   const data = req.body;
   data.id = req.params.id;
-  const grocery = new IGrocery();
-  grocery
-    .updateGrocery(data)
+  const product = new IProducts();
+  product
+    .updateProduct(data)
     .then((response) => {
       return res.status(response.status).json(response);
     })
@@ -82,11 +83,11 @@ async function updateGrocery(req: any, res: Response) {
     });
 }
 
-async function removeGrocery(req: any, res: Response) {
+async function removeProduct(req: any, res: Response) {
   const data = req.params;
-  const grocery = new IGrocery();
-  grocery
-    .removeGrocery(data)
+  const product = new IProducts();
+  product
+    .removeProduct(data)
     .then((response) => {
       return res.status(response.status).json(response);
     })

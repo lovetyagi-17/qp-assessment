@@ -2,7 +2,7 @@ import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
 
 import { qpDecrypt, qpEncrypt } from "../../utils/Encryption";
 import config from "../../config";
-import { Admin } from ".";
+import { Admin, Products } from ".";
 
 export const setEncrypt = (value) =>
   value && value !== ""
@@ -14,7 +14,7 @@ export const getDecrypt = (value) =>
     ? qpDecrypt(value, config.ENC_KEY, config.ENC_IV).toString()
     : "";
 
-export interface GroceryAttributes {
+export interface ProductsAttributes {
   id: string;
   name: string;
   description: string;
@@ -25,20 +25,18 @@ export interface GroceryAttributes {
   createdBy: string;
   deletedAt?: Date;
 }
-export interface GroceryModel
-  extends Model<GroceryAttributes>,
-    GroceryAttributes {
-  prototype: {
-    verifyPassword: (password: string) => boolean;
-  };
+export interface ProductModel
+  extends Model<ProductsAttributes>,
+    ProductsAttributes {
+  prototype: {};
 }
 
-export type GroceryStatic = typeof Model & {
-  new (values?: object, options?: BuildOptions): GroceryModel;
+export type ProductStatic = typeof Model & {
+  new (values?: object, options?: BuildOptions): ProductModel;
 };
 
-export function GroceryFactory(sequelize: Sequelize): GroceryStatic {
-  const Grocery = <GroceryStatic>sequelize.define("grocery", {
+export function ProductFactory(sequelize: Sequelize): ProductStatic {
+  const Products = <ProductStatic>sequelize.define("products", {
     id: {
       type: DataTypes.STRING,
       primaryKey: true,
@@ -93,11 +91,11 @@ export function GroceryFactory(sequelize: Sequelize): GroceryStatic {
     },
   });
 
-  Grocery.belongsTo(Admin, {
+  Products.belongsTo(Admin, {
     targetKey: "id",
     foreignKey: "createdBy",
     as: "createdByAdmin",
   });
 
-  return Grocery;
+  return Products;
 }

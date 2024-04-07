@@ -1,12 +1,12 @@
 import { Router } from "express";
 import user from "./user";
-import grocery from "./grocery";
+import product from "./product";
 import admin from "./admin";
 
 export default () => {
   const app = Router();
   user(app);
-  grocery(app);
+  product(app);
   admin(app);
   return app;
 };

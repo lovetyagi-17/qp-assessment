@@ -1,6 +1,6 @@
 import { dbConfig } from "../postgres";
 import { AdminFactory } from "./admin";
-import { GroceryFactory } from "./grocery";
+import { ProductFactory } from "./products";
 
 export const Admin = AdminFactory(dbConfig);
-export const Grocery = GroceryFactory(dbConfig);
+export const Products = ProductFactory(dbConfig);

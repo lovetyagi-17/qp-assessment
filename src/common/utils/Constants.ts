@@ -6,6 +6,7 @@ export enum MODULE_NAME {
   AUTH = "Authorization",
   TOKEN = "Token",
   PROFILE = "Profile",
+  PRODUCT = "Product",
 }
 
 export enum REQUEST_METHOD {
@@ -13,4 +14,7 @@ export enum REQUEST_METHOD {
   LOGOUT = "logout",
   GET = "get",
   EXPIRED = "expired",
+  POST = "added",
+  PUT = "updated",
+  DELETE = "deleted",
 }
