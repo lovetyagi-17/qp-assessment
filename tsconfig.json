@@ -11,7 +11,8 @@
   
       /* Type Checking */
       "skipLibCheck": true,                                /* Skip type checking all .d.ts files. */
-      "types": ["node", "express"]
-    }
+      "outDir": "./build",
+    },
+    "types": ["node", "express"]
   }
   
