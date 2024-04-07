@@ -18,17 +18,16 @@
     . Delete user accout flow ad users data deletion.
  */
 
-import { UsersModel } from "../../common/models";
+// import { UsersModel } from "../../common/models";
 import { statusCode } from "../../common/utils/StatusCodes";
-import UserService from "../services/users";
 
-export default class Users {
+export class Users {
   userService;
   constructor() {
-    this.userService = new UserService(UsersModel);
+    // this.userService = new UserService(UsersModel);
   }
 
-  async login(data: any) {
+  static async login(data: any) {
     try {
       return { status: statusCode.OK, message: "success" };
     } catch (error) {

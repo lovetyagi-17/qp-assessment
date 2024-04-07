@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import * as l10n from "jm-ez-l10n";
 
 import config from "./common/config";
 import loaders from "./common/loaders";
@@ -10,6 +11,10 @@ async function startServer() {
 
   await loaders({ expressApp: app });
   app.use(express.static(path.join(__dirname, "public")));
+  l10n.setTranslationsFile(
+    "en",
+    __dirname + "/common/language/translation.en.json"
+  );
 
   app.listen(config.PORT, (err?: any) => {
     if (err) {
