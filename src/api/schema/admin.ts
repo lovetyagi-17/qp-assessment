@@ -1,5 +1,4 @@
 import { celebrate, Joi } from "celebrate";
-import config from "../../common/config";
 
 const ADMIN_SCHEMA = {
   ADMIN_LOGIN: celebrate({
