@@ -16,6 +16,20 @@ const ORDER_ITEMS = Joi.object({
 });
 
 const USER_SCHEMA = {
+  USER_LOGIN: celebrate({
+    body: Joi.object({
+      email: Joi.string().required().messages({
+        "string.empty": "email is not allowed to be empty",
+        "string.base": "email must be a string",
+        "any.required": "email is required",
+      }),
+      password: Joi.string().required().messages({
+        "string.empty": "password is not allowed to be empty",
+        "string.base": "password must be a string",
+        "any.required": "password is required",
+      }),
+    }),
+  }),
   LIST: celebrate({
     query: Joi.object({
       page: Joi.number().integer().min(1).required().messages({

@@ -1,47 +1,55 @@
-import { Admin, Products } from "../../common/database/models/index";
+import {
+  Admin,
+  Products,
+  UserOrders,
+  Users,
+} from "../../common/database/models/index";
 
 export default class UsersService {
-  constructor(private readonly productsRepository: typeof Products) {}
+  constructor(
+    private readonly usersRepository: typeof Users,
+    private readonly userOrdersRepository: typeof UserOrders
+  ) {}
 
   async create(data: any) {
-    return await this.productsRepository.create(data);
+    return await this.userOrdersRepository.create(data);
   }
 
   async findOne(filter: any, attributes) {
-    return await this.productsRepository
+    return await this.usersRepository
       .findOne({
         where: filter,
         attributes,
       })
-      .then((admin) => JSON.parse(JSON.stringify(admin)));
+      .then((user) => JSON.parse(JSON.stringify(user)));
   }
 
-  async findOneInDetail(filter: any) {
-    return await this.productsRepository
-      .findOne({
-        where: filter,
-        attributes: { exclude: ["updatedAt", "createdBy", "description"] },
-        include: [
-          {
-            model: Admin,
-            as: "createdByAdmin",
-            attributes: ["id", "name"],
-          },
-        ],
-      })
-      .then((admin) => JSON.parse(JSON.stringify(admin)));
-  }
-
-  async findAll(filter: any, options: { page: number; limit: number }) {
-    return await this.productsRepository
+  async findAllCartOrders(
+    filter: any,
+    options: { page: number; limit: number }
+  ) {
+    return await this.userOrdersRepository
       .findAndCountAll({
         where: filter,
-        attributes: { exclude: ["updatedAt", "createdBy", "description"] },
+        attributes: {
+          exclude: [
+            "updatedAt",
+            "createdBy",
+            "deletedAt",
+            "userId",
+            "productId",
+          ],
+        },
         include: [
           {
-            model: Admin,
-            as: "createdByAdmin",
+            model: Users,
+            as: "orderUser",
             attributes: ["id", "name"],
+          },
+          {
+            model: Products,
+            as: "orderProductInfo",
+            attributes: ["id", "name", "description", "price"],
           },
         ],
 
@@ -50,19 +58,5 @@ export default class UsersService {
         order: [["createdAt", "DESC"]],
       })
       .then((admin) => JSON.parse(JSON.stringify(admin)));
-  }
-
-  async updateOne(filter: any, data: any) {
-    return await this.productsRepository.update(data, {
-      where: filter,
-    });
-  }
-
-  // we can use this also, prefer soft delete
-  async deleteOne(filter: any) {
-    return await this.productsRepository.destroy({
-      where: filter,
-      // force: true,
-    });
   }
 }

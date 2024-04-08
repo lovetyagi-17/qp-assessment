@@ -21,6 +21,8 @@ export default class HelperServices {
   }
 
   async verifyPassword(requestPassword, password): Promise<any> {
+    console.log(requestPassword, password);
+
     return bcrypt.compare(requestPassword, password);
   }
 

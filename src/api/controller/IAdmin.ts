@@ -74,7 +74,10 @@ export class IAdmins {
         data: { admin, token },
       };
     } catch (error) {
-      console.error(error);
+      return {
+        status: statusCode.INTERNAL_SERVER_ERROR,
+        message: l10n.t("SOMETHING_WENT_WRONG"),
+      };
     }
   }
 
@@ -111,7 +114,10 @@ export class IAdmins {
         data: admin,
       };
     } catch (error) {
-      console.error(error);
+      return {
+        status: statusCode.INTERNAL_SERVER_ERROR,
+        message: l10n.t("SOMETHING_WENT_WRONG"),
+      };
     }
   }
 
@@ -149,7 +155,10 @@ export class IAdmins {
         }),
       };
     } catch (error) {
-      console.error(error);
+      return {
+        status: statusCode.INTERNAL_SERVER_ERROR,
+        message: l10n.t("SOMETHING_WENT_WRONG"),
+      };
     }
   }
 }

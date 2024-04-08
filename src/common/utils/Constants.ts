@@ -1,12 +1,13 @@
 export enum MODULE_NAME {
   USER = "User",
   GLOBAL_SETTING = "Global Setting",
-  GROCERY = "Grocery",
   ADMIN = "Admin",
   AUTH = "Authorization",
   TOKEN = "Token",
   PROFILE = "Profile",
   PRODUCT = "Product",
+  CART = "Cart",
+  ITEMS = "Items",
 }
 
 export enum REQUEST_METHOD {
