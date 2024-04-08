@@ -49,7 +49,10 @@ export class IProducts {
         data: { id: data.id },
       };
     } catch (error) {
-      console.error(error);
+      return {
+        status: statusCode.INTERNAL_SERVER_ERROR,
+        message: l10n.t("SOMETHING_WENT_WRONG"),
+      };
     }
   }
 
@@ -93,7 +96,10 @@ export class IProducts {
         },
       };
     } catch (error) {
-      console.error(error);
+      return {
+        status: statusCode.INTERNAL_SERVER_ERROR,
+        message: l10n.t("SOMETHING_WENT_WRONG"),
+      };
     }
   }
 
@@ -126,7 +132,10 @@ export class IProducts {
         data: product,
       };
     } catch (error) {
-      console.error(error);
+      return {
+        status: statusCode.INTERNAL_SERVER_ERROR,
+        message: l10n.t("SOMETHING_WENT_WRONG"),
+      };
     }
   }
 
@@ -182,7 +191,10 @@ export class IProducts {
         }),
       };
     } catch (error) {
-      console.error(error);
+      return {
+        status: statusCode.INTERNAL_SERVER_ERROR,
+        message: l10n.t("SOMETHING_WENT_WRONG"),
+      };
     }
   }
 
@@ -236,7 +248,10 @@ export class IProducts {
         }),
       };
     } catch (error) {
-      console.error(error);
+      return {
+        status: statusCode.INTERNAL_SERVER_ERROR,
+        message: l10n.t("SOMETHING_WENT_WRONG"),
+      };
     }
   }
 }

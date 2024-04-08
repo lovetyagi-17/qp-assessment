@@ -9,5 +9,5 @@
     "NOT_ALLOWED": "{{key}} not allowed",
     "COMMON_REQUEST": "Your request is {{key}} {{method}}",
     "ALREADY_DONE": "{{key}} has been already {{status}}",
-    "INVALID_REQUEST": "Invalid {{module}}"
+    "INVALID_REQUEST": "Invalid {{key}}"
   }
