@@ -309,7 +309,7 @@ export class IUsers {
           price: +cartItem.price,
           createdAt: cartItem.createdAt,
           productInfo: {
-            productId: cartItem.orderProductInfo.productId,
+            productId: cartItem.orderProductInfo.id,
             name: cartItem.orderProductInfo.name,
             price: +cartItem.orderProductInfo.price,
           },

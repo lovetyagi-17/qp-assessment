@@ -9,6 +9,7 @@ let baseUrl = `${config.BASE_URL}user/`;
 
 const pagination = { page: 1, limit: 5 }; // for listing api
 let items = []; // use while adding product to cart
+let cartItemIds = []; // use while ordering cart items
 
 describe('User', function () {
   it('user login with invalid credentials', (done) => {
@@ -339,7 +340,98 @@ describe('Orders in Cart', function () {
             assert.strictEqual(typeof productInfo.description, 'string');
             assert.strictEqual(typeof productInfo.id, 'string');
             assert.strictEqual(typeof productInfo.price, 'string');
+
+            cartItemIds.push(order.id);
           }
+
+          done();
+        } else {
+          done(error);
+        }
+      });
+  });
+});
+
+describe('Orders placed', function () {
+  it('token not found', function (done) {
+    request(baseUrl)
+      .post('order')
+      .query(pagination)
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+      .end(function (error, result) {
+        if (result && result._body) {
+          const response = result._body;
+
+          assert.strictEqual(typeof response, 'object');
+          assert.strictEqual(response.status, statusCode.BAD_REQUEST);
+          assert.strictEqual(typeof response.message, 'string');
+
+          done();
+        } else {
+          done(error);
+        }
+      });
+  });
+  it('invalid auth token', function (done) {
+    request(baseUrl)
+      .post('order')
+      .query(pagination)
+      .set('Authorization', `Bearer ${1234}`)
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+      .end(function (error, result) {
+        if (result && result._body) {
+          const response = result._body;
+
+          assert.strictEqual(typeof response, 'object');
+          assert.strictEqual(response.status, statusCode.UNAUTHORISED);
+          assert.strictEqual(typeof response.message, 'string');
+
+          done();
+        } else {
+          done(error);
+        }
+      });
+  });
+  it('place order', function (done) {
+    request(baseUrl)
+      .post('order')
+      .send({ orderIds: cartItemIds })
+      .set('Authorization', `Bearer ${token}`)
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
+      .end(function (error, result) {
+        if (result && result._body) {
+          const response = result._body;
+
+          assert.strictEqual(typeof response, 'object');
+          assert.strictEqual(response.status, statusCode.OK);
+          assert.strictEqual(typeof response.message, 'string');
+          assert.strictEqual(typeof response.data.totalPrice, 'number');
+
+          const orderUser = response.data.orderUser;
+          assert.ok(orderUser);
+          assert.strictEqual(typeof orderUser.id, 'string');
+          assert.strictEqual(typeof orderUser.name, 'string');
+
+          const orderProduct = response.data.productDetails;
+          for (let order of orderProduct) {
+            assert.ok(order);
+
+            assert.strictEqual(typeof order.quantity, 'number');
+            assert.strictEqual(typeof order.price, 'number');
+            assert.strictEqual(typeof order.createdAt, 'string');
+
+            const productInfo = order.productInfo;
+            assert.ok(productInfo);
+            assert.strictEqual(typeof productInfo.productId, 'string');
+            assert.strictEqual(typeof productInfo.name, 'string');
+            assert.strictEqual(typeof productInfo.price, 'number');
+          }
+
+          // to claer cartItemIds
+          cartItemIds.splice(0, cartItemIds.length);
 
           done();
         } else {
