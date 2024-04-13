@@ -1,0 +1,13 @@
+{
+  "NOT_EXISTS": "{{key}} does not exist",
+  "INVALID_CREDENTIALS": "Please enter a valid Email or Password",
+  "SOMETHING_WENT_WRONG": "Something went wrong, please try again.",
+  "ALREADY_EXISTS": "{{key}} already exists",
+  "TOKEN_NOTFOUND": "{{key}} not valid or expire.Please try agains",
+  "GET_DETAILS": "{{key}} details {{method}} successfully",
+  "COMMON_SUCCESS_MESSAGE": "{{key}} {{method}} successfully",
+  "NOT_ALLOWED": "{{key}} not allowed",
+  "COMMON_REQUEST": "Your request is {{key}} {{method}}",
+  "ALREADY_DONE": "{{key}} has been already {{status}}",
+  "INVALID_REQUEST": "Invalid {{key}}"
+}
