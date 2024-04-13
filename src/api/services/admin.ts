@@ -1,4 +1,4 @@
-import { Admin } from "../../common/database/models/index";
+import { Admin } from '../../common/database/models/index';
 
 export default class AdminsService {
   constructor(private readonly adminsRepository: typeof Admin) {}

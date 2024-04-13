@@ -1,4 +1,4 @@
-import { Admin, Products } from "../../common/database/models/index";
+import { Admin, Products } from '../../common/database/models/index';
 
 export default class ProductsService {
   constructor(private readonly productsRepository: typeof Products) {}
@@ -20,12 +20,12 @@ export default class ProductsService {
     return await this.productsRepository
       .findOne({
         where: filter,
-        attributes: { exclude: ["updatedAt", "createdBy", "description"] },
+        attributes: { exclude: ['updatedAt', 'createdBy', 'description'] },
         include: [
           {
             model: Admin,
-            as: "createdByAdmin",
-            attributes: ["id", "name"],
+            as: 'createdByAdmin',
+            attributes: ['id', 'name'],
           },
         ],
       })
@@ -36,18 +36,18 @@ export default class ProductsService {
     return await this.productsRepository
       .findAndCountAll({
         where: filter,
-        attributes: { exclude: ["updatedAt", "createdBy", "description"] },
+        attributes: { exclude: ['updatedAt', 'createdBy', 'description'] },
         include: [
           {
             model: Admin,
-            as: "createdByAdmin",
-            attributes: ["id", "name"],
+            as: 'createdByAdmin',
+            attributes: ['id', 'name'],
           },
         ],
 
         offset: options.page ? (options.page - 1) * options.limit : 0,
         limit: options.limit ? options.limit : 10,
-        order: [["createdAt", "DESC"]],
+        order: [['createdAt', 'DESC']],
       })
       .then((admin) => JSON.parse(JSON.stringify(admin)));
   }

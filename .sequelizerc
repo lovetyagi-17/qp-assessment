@@ -2,7 +2,6 @@ const path = require('path');
 /* eslint-disable @typescript-eslint/no-var-requires */
 const dotenv = require('dotenv');
 dotenv.config();
-console.log(process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === 'development') {
   module.exports = {

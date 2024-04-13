@@ -1,5 +1,5 @@
-import config from "../config";
-import * as sequelize from "sequelize";
+import config from '../config';
+import * as sequelize from 'sequelize';
 
 export const dbConfig = new sequelize.Sequelize(
   config.DB_NAME,
@@ -7,7 +7,7 @@ export const dbConfig = new sequelize.Sequelize(
   config.DB_PASSWORD,
   {
     host: config.DB_HOST,
-    dialect: "postgres",
+    dialect: 'postgres',
     port: +config.DB_PORT,
     pool: {
       min: 0,
@@ -15,7 +15,7 @@ export const dbConfig = new sequelize.Sequelize(
       acquire: 30000,
       idle: 10000,
     },
-    logging: config.NODE_ENV === "production" ? false : true,
+    logging: config.NODE_ENV === 'production' ? false : true,
   }
 );
 
@@ -23,7 +23,7 @@ const connectDB = async () => {
   try {
     dbConfig
       .authenticate()
-      .then(() => console.info("Posgresql Connected..."))
+      .then(() => console.info('Posgresql Connected...'))
       .catch((err) => {
         console.error(`authentication error posgresql : ${err.message}`);
       });

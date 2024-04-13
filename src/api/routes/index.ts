@@ -1,7 +1,7 @@
-import { Router } from "express";
-import user from "./user";
-import product from "./product";
-import admin from "./admin";
+import { Router } from 'express';
+import user from './user';
+import product from './product';
+import admin from './admin';
 
 export default () => {
   const app = Router();

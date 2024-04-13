@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     return queryInterface.createTable('products', {
       id: {
         type: Sequelize.STRING,
@@ -26,16 +26,16 @@ module.exports = {
       price: {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
-        defaultValue: 0.0
+        defaultValue: 0.0,
       },
       createdBy: {
         allowNull: false,
         type: Sequelize.STRING,
         references: {
           model: 'admins',
-          key: 'id'
+          key: 'id',
         },
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       createdAt: { type: Sequelize.DATE, default: new Date() },
       updatedAt: { type: Sequelize.DATE, default: new Date() },
@@ -43,7 +43,7 @@ module.exports = {
     });
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('products');
-  }
+  },
 };

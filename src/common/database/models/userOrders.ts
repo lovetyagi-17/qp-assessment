@@ -1,18 +1,18 @@
-import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
+import { BuildOptions, DataTypes, Model, Sequelize } from 'sequelize';
 
-import { qpDecrypt, qpEncrypt } from "../../utils/Encryption";
-import config from "../../config";
-import { Products, Users } from ".";
+import { qpDecrypt, qpEncrypt } from '../../utils/Encryption';
+import config from '../../config';
+import { Products, Users } from '.';
 
 export const setEncrypt = (value) =>
-  value && value !== ""
+  value && value !== ''
     ? qpEncrypt(value, config.ENC_KEY, config.ENC_IV).toString()
-    : "";
+    : '';
 
 export const getDecrypt = (value) =>
-  value && value !== ""
+  value && value !== ''
     ? qpDecrypt(value, config.ENC_KEY, config.ENC_IV).toString()
-    : "";
+    : '';
 
 export interface UserOrderAttributes {
   id: string;
@@ -31,7 +31,7 @@ export type UserOrderStatic = typeof Model & {
 };
 
 export function UserOrderFactory(sequelize: Sequelize): UserOrderStatic {
-  const UserOrder = <UserOrderStatic>sequelize.define("userOrders", {
+  const UserOrder = <UserOrderStatic>sequelize.define('userOrders', {
     id: {
       type: DataTypes.STRING,
       primaryKey: true,
@@ -60,15 +60,15 @@ export function UserOrderFactory(sequelize: Sequelize): UserOrderStatic {
   });
 
   UserOrder.belongsTo(Users, {
-    targetKey: "id",
-    foreignKey: "userId",
-    as: "orderUser",
+    targetKey: 'id',
+    foreignKey: 'userId',
+    as: 'orderUser',
   });
 
   UserOrder.belongsTo(Products, {
-    targetKey: "id",
-    foreignKey: "productId",
-    as: "orderProductInfo",
+    targetKey: 'id',
+    foreignKey: 'productId',
+    as: 'orderProductInfo',
   });
 
   return UserOrder;
