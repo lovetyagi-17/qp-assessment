@@ -9,19 +9,19 @@ module.exports = {
     try {
       const salt = await bcrypt.genSalt(+process.env.SALT_WORK_FACTOR);
       const encryptpassword = await bcrypt.hash(
-        process.env.QP_ADMIN_PASSWORD,
+        process.env.QP_USER_PASSWORD,
         salt
       );
-      await queryInterface.bulkInsert('admins', [
+      await queryInterface.bulkInsert('users', [
         {
-          id: `admin_${this.generateUid()}`,
+          id: `user_${this.generateUid()}`,
           name: this.encrypt(
-            process.env.QP_ADMIN_EMAIL.split('@')[0],
+            process.env.QP_USER_EMAIL.split('@')[0],
             process.env.ENC_KEY,
             process.env.ENC_IV
           ),
           email: this.encrypt(
-            process.env.QP_ADMIN_EMAIL,
+            process.env.QP_USER_EMAIL,
             process.env.ENC_KEY,
             process.env.ENC_IV
           ),
@@ -32,7 +32,7 @@ module.exports = {
         },
       ]);
     } catch (error) {
-      console.error('seeder admin-: ', error);
+      console.error('seeder user-: ', error);
     }
   },
 

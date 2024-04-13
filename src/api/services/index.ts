@@ -1,5 +1,5 @@
-import AdminsService from "./admin";
-// import GroceryService from "./grocery";
-// import UserService from "./users";
+import AdminsService from './admin';
+import ProductsService from './products';
+import UserService from './users';
 
-export { AdminsService /*  UserService, GroceryService */ };
+export { AdminsService, UserService, ProductsService };

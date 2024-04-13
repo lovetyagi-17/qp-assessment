@@ -5,7 +5,7 @@
   "main": "src/app.ts",
   "scripts": {
     "start": "nodemon",
-    "test": "npm run test",
+    "test": "mocha -r ts-node/register src/test/*.ts --timeout 100000 $1",
     "db:migrate:create": "npx sequelize-cli migration:create --name",
     "db:seed:create": "npx sequelize-cli seed:generate --name",
     "db:migrate:run": "npx sequelize-cli db:migrate --env development",
@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/lovetyagi-17/qp-assessment#readme",
   "dependencies": {
+    "assert": "^2.1.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -52,7 +53,11 @@
     "typedi": "^0.10.0"
   },
   "devDependencies": {
+    "@types/mocha": "^10.0.6",
+    "chai": "^5.1.0",
+    "mocha": "^10.4.0",
     "nodemon": "^3.1.0",
+    "supertest": "^6.3.4",
     "typescript": "^5.4.4"
   }
 }

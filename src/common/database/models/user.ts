@@ -16,7 +16,7 @@ export const getDecrypt = (value) =>
     ? qpDecrypt(value, config.ENC_KEY, config.ENC_IV).toString()
     : '';
 
-export interface AdminAttributes {
+export interface UserAttributes {
   id: string;
   name: string;
   email: string;
@@ -24,18 +24,18 @@ export interface AdminAttributes {
   isActive: boolean;
   deletedAt?: Date;
 }
-export interface AdminModel extends Model<AdminAttributes>, AdminAttributes {
+export interface UserModel extends Model<UserAttributes>, UserAttributes {
   prototype: {
     verifyPassword: (password: string) => boolean;
   };
 }
 
-export type AdminStatic = typeof Model & {
-  new (values?: object, options?: BuildOptions): AdminModel;
+export type UserStatic = typeof Model & {
+  new (values?: object, options?: BuildOptions): UserModel;
 };
 
-export function AdminFactory(sequelize: Sequelize): AdminStatic {
-  const Admin = <AdminStatic>sequelize.define('admins', {
+export function UserFactory(sequelize: Sequelize): UserStatic {
+  const User = <UserStatic>sequelize.define('users', {
     id: {
       type: DataTypes.STRING,
       primaryKey: true,
@@ -78,13 +78,13 @@ export function AdminFactory(sequelize: Sequelize): AdminStatic {
     },
   });
 
-  Admin.beforeCreate(async (admin, options) => {
-    if (admin.password) {
+  User.beforeCreate(async (user, options) => {
+    if (user.password) {
       const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
-      const encryptpassword = await bcrypt.hash(admin.password, salt);
-      admin.password = encryptpassword;
+      const encryptpassword = await bcrypt.hash(user.password, salt);
+      user.password = encryptpassword;
     }
   });
 
-  return Admin;
+  return User;
 }
