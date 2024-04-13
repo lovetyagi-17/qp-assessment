@@ -1,30 +1,26 @@
-import assert from "assert";
-import * as l10n from "jm-ez-l10n";
-import request from "supertest";
+import assert from 'assert';
+import request from 'supertest';
 
-import { IAdmins } from "../api/controller/IAdmin";
-import config from "../common/config";
-import { MODULE_NAME } from "../common/utils/Constants";
-import { statusCode } from "../common/utils/StatusCodes";
+import config from '../common/config';
+import { statusCode } from '../common/utils/StatusCodes';
 
-const adminRepository = new IAdmins();
 let token;
 
-let baseUrl = "http://localhost:4010/admin/";
+const baseUrl = `${config.BASE_URL}admin/`;
 
-describe("Admin", function () {
-  it("admin login with invalid credentials", (done) => {
+describe('Admin', function () {
+  it('admin login with invalid credentials', (done) => {
     request(baseUrl)
-      .post("login")
+      .post('login')
       .send({
         email: config.QP_USER_EMAIL,
         password: config.QP_USER_PASSWORD,
       })
-      .set("Accept", "application/json")
-      .set("Content-Type", "application/json")
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .end(function (error, result) {
         if (result && result._body) {
-          assert.strictEqual(typeof result._body, "object");
+          assert.strictEqual(typeof result._body, 'object');
           assert.strictEqual(result.status, statusCode.NOT_FOUND);
 
           done();
@@ -33,20 +29,20 @@ describe("Admin", function () {
         }
       });
   });
-  it("admin login with invalid password", (done) => {
+  it('admin login with invalid password', (done) => {
     request(baseUrl)
-      .post("login")
+      .post('login')
       .send({
         email: config.QP_ADMIN_EMAIL,
         password: config.QP_USER_PASSWORD,
       })
-      .set("Accept", "application/json")
-      .set("Content-Type", "application/json")
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .end(function (error, result) {
         if (result && result._body) {
-          assert.strictEqual(typeof result._body, "object");
+          assert.strictEqual(typeof result._body, 'object');
           assert.strictEqual(result._body.status, statusCode.BAD_REQUEST);
-          assert.strictEqual(typeof result._body.message, "string");
+          assert.strictEqual(typeof result._body.message, 'string');
 
           done();
         } else {
@@ -54,32 +50,32 @@ describe("Admin", function () {
         }
       });
   });
-  it("admin login with valid credentials", function (done) {
+  it('admin login with valid credentials', function (done) {
     request(baseUrl)
-      .post("login")
+      .post('login')
       .send({
         email: config.QP_ADMIN_EMAIL,
         password: config.QP_ADMIN_PASSWORD,
       })
-      .set("Accept", "application/json")
-      .set("Content-Type", "application/json")
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .end(function (error, result) {
         if (result && result._body) {
           const response = result._body;
 
           assert.strictEqual(response.status, statusCode.OK);
-          assert.strictEqual(typeof response.message, "string");
+          assert.strictEqual(typeof response.message, 'string');
           assert.ok(response.data.token);
-          assert.strictEqual(typeof response.data.token, "string");
+          assert.strictEqual(typeof response.data.token, 'string');
 
           const admin = response.data.admin;
           assert.ok(admin);
-          assert.strictEqual(typeof response.data.admin, "object");
-          assert.strictEqual(typeof admin.name, "string");
-          assert.strictEqual(typeof admin.email, "string");
-          assert.strictEqual(typeof admin.id, "string");
-          assert.strictEqual(typeof admin.isActive, "boolean");
-          assert.strictEqual(typeof admin.createdAt, "string");
+          assert.strictEqual(typeof response.data.admin, 'object');
+          assert.strictEqual(typeof admin.name, 'string');
+          assert.strictEqual(typeof admin.email, 'string');
+          assert.strictEqual(typeof admin.id, 'string');
+          assert.strictEqual(typeof admin.isActive, 'boolean');
+          assert.strictEqual(typeof admin.createdAt, 'string');
           assert.ok(typeof admin.deletedAt, null);
 
           token = response.data.token;
@@ -91,20 +87,20 @@ describe("Admin", function () {
   });
 });
 
-describe("Get Admin", function () {
-  it("admin profile with invalid token", function (done) {
+describe('Get Admin', function () {
+  it('admin profile with invalid token', function (done) {
     request(baseUrl)
-      .get("")
-      .set("Authorization", `Bearer ${123}`)
-      .set("Accept", "application/json")
-      .set("Content-Type", "application/json")
+      .get('')
+      .set('Authorization', `Bearer ${123}`)
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .end(function (error, result) {
         if (result && result._body) {
           const response = result._body;
 
-          assert.strictEqual(typeof response, "object");
+          assert.strictEqual(typeof response, 'object');
           assert.strictEqual(response.status, statusCode.UNAUTHORISED);
-          assert.strictEqual(typeof response.message, "string");
+          assert.strictEqual(typeof response.message, 'string');
 
           done();
         } else {
@@ -113,19 +109,19 @@ describe("Get Admin", function () {
       });
   });
 
-  it("admin profile with no token", function (done) {
+  it('admin profile with no token', function (done) {
     request(baseUrl)
-      .get("")
+      .get('')
       // .set("Authorization", `Bearer ${token}`)
-      .set("Accept", "application/json")
-      .set("Content-Type", "application/json")
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .end(function (error, result) {
         if (result && result._body) {
           const response = result._body;
 
-          assert.strictEqual(typeof response, "object");
+          assert.strictEqual(typeof response, 'object');
           assert.strictEqual(response.status, statusCode.BAD_REQUEST);
-          assert.strictEqual(typeof response.message, "string");
+          assert.strictEqual(typeof response.message, 'string');
 
           done();
         } else {
@@ -134,30 +130,30 @@ describe("Get Admin", function () {
       });
   });
 
-  it("admin profile with token", function (done) {
+  it('admin profile with token', function (done) {
     request(baseUrl)
-      .get("")
-      .set("Authorization", `Bearer ${token}`)
-      .set("Accept", "application/json")
-      .set("Content-Type", "application/json")
+      .get('')
+      .set('Authorization', `Bearer ${token}`)
+      .set('Accept', 'application/json')
+      .set('Content-Type', 'application/json')
       .end(function (error, result) {
         if (result && result._body) {
           const response = result._body;
 
-          assert.strictEqual(typeof response, "object");
+          assert.strictEqual(typeof response, 'object');
           assert.strictEqual(response.status, statusCode.OK);
-          assert.strictEqual(typeof response.message, "string");
+          assert.strictEqual(typeof response.message, 'string');
 
-          assert.strictEqual(typeof response.data, "object");
+          assert.strictEqual(typeof response.data, 'object');
 
           const admin = response.data;
           assert.ok(admin);
-          assert.strictEqual(typeof admin, "object");
-          assert.strictEqual(typeof admin.name, "string");
-          assert.strictEqual(typeof admin.email, "string");
-          assert.strictEqual(typeof admin.id, "string");
-          assert.strictEqual(typeof admin.isActive, "boolean");
-          assert.strictEqual(typeof admin.createdAt, "string");
+          assert.strictEqual(typeof admin, 'object');
+          assert.strictEqual(typeof admin.name, 'string');
+          assert.strictEqual(typeof admin.email, 'string');
+          assert.strictEqual(typeof admin.id, 'string');
+          assert.strictEqual(typeof admin.isActive, 'boolean');
+          assert.strictEqual(typeof admin.createdAt, 'string');
           assert.equal(admin.deletedAt, null);
           done();
         } else {

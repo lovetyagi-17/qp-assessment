@@ -1,14 +1,13 @@
-import * as l10n from "jm-ez-l10n";
-import { Op } from "sequelize";
-import Container from "typedi";
+import * as l10n from 'jm-ez-l10n';
+import Container from 'typedi';
 
-import { Products, UserOrders, Users } from "../../common/database/models";
-import { setEncrypt } from "../../common/database/models/user";
-import { MODULE_NAME, REQUEST_METHOD } from "../../common/utils/Constants";
-import HelperServices from "../../common/utils/Helpers";
-import { statusCode } from "../../common/utils/StatusCodes";
-import { ProductsService } from "../services";
-import UsersService from "../services/users";
+import { Products, UserOrders, Users } from '../../common/database/models';
+import { setEncrypt } from '../../common/database/models/user';
+import { MODULE_NAME, REQUEST_METHOD } from '../../common/utils/Constants';
+import HelperServices from '../../common/utils/Helpers';
+import { statusCode } from '../../common/utils/StatusCodes';
+import { ProductsService } from '../services';
+import UsersService from '../services/users';
 
 export class IUsers {
   private readonly productsService: ProductsService;
@@ -23,34 +22,30 @@ export class IUsers {
 
   async login(data: any) {
     try {
-      console.log({ data });
       const filter = {
         email: setEncrypt(data.email).toLowerCase(),
         isActive: true,
       };
-      console.log({ filter });
 
       const attributes = [
-        "name",
-        "email",
-        "password",
-        "id",
-        "isActive",
-        "deletedAt",
-        "createdAt",
+        'name',
+        'email',
+        'password',
+        'id',
+        'isActive',
+        'deletedAt',
+        'createdAt',
       ];
 
       const user = await this.usersService.findOne(filter, attributes);
       if (!user || !user.isActive || user.deletedAt) {
         return {
           status: statusCode.NOT_FOUND,
-          message: l10n.t("NOT_EXISTS", {
+          message: l10n.t('NOT_EXISTS', {
             key: MODULE_NAME.USER,
           }),
         };
       }
-
-      console.log({ user });
 
       const checkPassword = await this.helperService.verifyPassword(
         data.password,
@@ -69,13 +64,13 @@ export class IUsers {
       if (!checkPassword) {
         return {
           status: statusCode.BAD_REQUEST,
-          message: l10n.t("INVALID_CREDENTIALS"),
+          message: l10n.t('INVALID_CREDENTIALS'),
         };
       }
 
       return {
         status: statusCode.OK,
-        message: l10n.t("COMMON_SUCCESS_MESSAGE", {
+        message: l10n.t('COMMON_SUCCESS_MESSAGE', {
           key: MODULE_NAME.USER,
           method: REQUEST_METHOD.LOGIN,
         }),
@@ -84,7 +79,7 @@ export class IUsers {
     } catch (error) {
       return {
         status: statusCode.INTERNAL_SERVER_ERROR,
-        message: l10n.t("SOMETHING_WENT_WRONG"),
+        message: l10n.t('SOMETHING_WENT_WRONG'),
       };
     }
   }
@@ -103,7 +98,7 @@ export class IUsers {
 
       return {
         status: statusCode.OK,
-        message: l10n.t("COMMON_SUCCESS_MESSAGE", {
+        message: l10n.t('COMMON_SUCCESS_MESSAGE', {
           key: MODULE_NAME.PRODUCT,
           method: REQUEST_METHOD.GET,
         }),
@@ -115,7 +110,7 @@ export class IUsers {
     } catch (error) {
       return {
         status: statusCode.INTERNAL_SERVER_ERROR,
-        message: l10n.t("SOMETHING_WENT_WRONG"),
+        message: l10n.t('SOMETHING_WENT_WRONG'),
       };
     }
   }
@@ -127,7 +122,7 @@ export class IUsers {
 
       return {
         status: statusCode.OK,
-        message: l10n.t("COMMON_SUCCESS_MESSAGE", {
+        message: l10n.t('COMMON_SUCCESS_MESSAGE', {
           key: `${MODULE_NAME.PRODUCT} details`,
           method: REQUEST_METHOD.GET,
         }),
@@ -136,36 +131,35 @@ export class IUsers {
     } catch (error) {
       return {
         status: statusCode.INTERNAL_SERVER_ERROR,
-        message: l10n.t("SOMETHING_WENT_WRONG"),
+        message: l10n.t('SOMETHING_WENT_WRONG'),
       };
     }
   }
 
   async addToCart(data: any) {
     try {
-      const token: { id: string; name: string } = Container.get("auth-token");
+      const token: { id: string; name: string } = Container.get('auth-token');
 
       const userFilter = { id: token.id };
       const userAttributes = [
-        "name",
-        "email",
-        "id",
-        "isActive",
-        "deletedAt",
-        "createdAt",
+        'name',
+        'email',
+        'id',
+        'isActive',
+        'deletedAt',
+        'createdAt',
       ];
       const user = await this.usersService.findOne(userFilter, userAttributes);
       if (!user || !user.isActive || user.deletedAt) {
         return {
           status: statusCode.NOT_FOUND,
-          message: l10n.t("NOT_EXISTS", {
+          message: l10n.t('NOT_EXISTS', {
             key: MODULE_NAME.USER,
           }),
         };
       }
-      const orderData = [];
       const attributes = {
-        exclude: ["createdBy", "createdAt", "updatedAt", "deletedAt"],
+        exclude: ['createdBy', 'createdAt', 'updatedAt', 'deletedAt'],
       };
       for (let product of data.items) {
         const productData = await this.productsService.findOne(
@@ -207,7 +201,7 @@ export class IUsers {
 
       return {
         status: statusCode.OK,
-        message: l10n.t("COMMON_SUCCESS_MESSAGE", {
+        message: l10n.t('COMMON_SUCCESS_MESSAGE', {
           key: MODULE_NAME.PRODUCT,
           method: `${this.helperService.toLowerCase(
             REQUEST_METHOD.POST
@@ -217,29 +211,29 @@ export class IUsers {
     } catch (error) {
       return {
         status: statusCode.INTERNAL_SERVER_ERROR,
-        message: l10n.t("SOMETHING_WENT_WRONG"),
+        message: l10n.t('SOMETHING_WENT_WRONG'),
       };
     }
   }
 
   async cartList(data: any) {
     try {
-      const token: { id: string; name: string } = Container.get("auth-token");
+      const token: { id: string; name: string } = Container.get('auth-token');
 
       const userFilter = { id: token.id };
       const userAttributes = [
-        "name",
-        "email",
-        "id",
-        "isActive",
-        "deletedAt",
-        "createdAt",
+        'name',
+        'email',
+        'id',
+        'isActive',
+        'deletedAt',
+        'createdAt',
       ];
       const user = await this.usersService.findOne(userFilter, userAttributes);
       if (!user || !user.isActive || user.deletedAt) {
         return {
           status: statusCode.NOT_FOUND,
-          message: l10n.t("NOT_EXISTS", {
+          message: l10n.t('NOT_EXISTS', {
             key: MODULE_NAME.USER,
           }),
         };
@@ -253,7 +247,7 @@ export class IUsers {
 
       return {
         status: statusCode.OK,
-        message: l10n.t("COMMON_SUCCESS_MESSAGE", {
+        message: l10n.t('COMMON_SUCCESS_MESSAGE', {
           key: `${MODULE_NAME.CART} ${this.helperService.toLowerCase(
             MODULE_NAME.ITEMS
           )}`,
@@ -267,7 +261,7 @@ export class IUsers {
     } catch (error) {
       return {
         status: statusCode.INTERNAL_SERVER_ERROR,
-        message: l10n.t("SOMETHING_WENT_WRONG"),
+        message: l10n.t('SOMETHING_WENT_WRONG'),
       };
     }
   }
