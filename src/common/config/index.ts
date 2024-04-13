@@ -1,8 +1,8 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 
 // This error should crash whole process
 const envFound = dotenv.config();
-if (!envFound) throw new Error("⚠️ Couldn not find .env file ⚠️");
+if (!envFound) throw new Error('⚠️ Couldn not find .env file ⚠️');
 
 export default {
   ENV: process.env.ENV,
@@ -20,7 +20,7 @@ export default {
   CIPHER_SECRET: process.env.CIPHER_SECRET,
 
   /* API configs */
-  API_PREFIX: "",
+  API_PREFIX: '',
 
   /* PosgreSQL Credentials */
   DB_HOST: process.env.DB_HOST,
@@ -37,4 +37,6 @@ export default {
 
   QP_USER_EMAIL: process.env.QP_USER_EMAIL,
   QP_USER_PASSWORD: process.env.QP_USER_PASSWORD,
+
+  BASE_URL: `http://localhost:${process.env.PORT}/`,
 };
