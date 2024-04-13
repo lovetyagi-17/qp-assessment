@@ -1,18 +1,18 @@
-import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
+import { BuildOptions, DataTypes, Model, Sequelize } from 'sequelize';
 
-import { qpDecrypt, qpEncrypt } from "../../utils/Encryption";
-import config from "../../config";
-import { Admin, Products } from ".";
+import { qpDecrypt, qpEncrypt } from '../../utils/Encryption';
+import config from '../../config';
+import { Admin, Products } from '.';
 
 export const setEncrypt = (value) =>
-  value && value !== ""
+  value && value !== ''
     ? qpEncrypt(value, config.ENC_KEY, config.ENC_IV).toString()
-    : "";
+    : '';
 
 export const getDecrypt = (value) =>
-  value && value !== ""
+  value && value !== ''
     ? qpDecrypt(value, config.ENC_KEY, config.ENC_IV).toString()
-    : "";
+    : '';
 
 export interface ProductsAttributes {
   id: string;
@@ -36,32 +36,32 @@ export type ProductStatic = typeof Model & {
 };
 
 export function ProductFactory(sequelize: Sequelize): ProductStatic {
-  const Products = <ProductStatic>sequelize.define("products", {
+  const Products = <ProductStatic>sequelize.define('products', {
     id: {
       type: DataTypes.STRING,
       primaryKey: true,
     },
     name: {
       type: DataTypes.STRING,
-      defaultValue: "",
+      defaultValue: '',
       set(value) {
         const setValue: any = setEncrypt(value);
-        this.setDataValue("name", setValue);
+        this.setDataValue('name', setValue);
       },
       get() {
-        const getValue = getDecrypt(this.getDataValue("name"));
+        const getValue = getDecrypt(this.getDataValue('name'));
         return getValue;
       },
     },
     description: {
       type: DataTypes.STRING,
-      defaultValue: "",
+      defaultValue: '',
       set(value) {
         const setValue: any = setEncrypt(value);
-        this.setDataValue("description", setValue);
+        this.setDataValue('description', setValue);
       },
       get() {
-        const getValue = getDecrypt(this.getDataValue("description"));
+        const getValue = getDecrypt(this.getDataValue('description'));
         return getValue;
       },
     },
@@ -92,9 +92,9 @@ export function ProductFactory(sequelize: Sequelize): ProductStatic {
   });
 
   Products.belongsTo(Admin, {
-    targetKey: "id",
-    foreignKey: "createdBy",
-    as: "createdByAdmin",
+    targetKey: 'id',
+    foreignKey: 'createdBy',
+    as: 'createdByAdmin',
   });
 
   return Products;

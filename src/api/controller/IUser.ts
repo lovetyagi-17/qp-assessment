@@ -8,6 +8,7 @@ import HelperServices from '../../common/utils/Helpers';
 import { statusCode } from '../../common/utils/StatusCodes';
 import { ProductsService } from '../services';
 import UsersService from '../services/users';
+import { Op } from 'sequelize';
 
 export class IUsers {
   private readonly productsService: ProductsService;
@@ -239,7 +240,7 @@ export class IUsers {
         };
       }
 
-      const filter = { userId: user.id };
+      const filter = { userId: user.id, isActive: true };
       const userOrders = await this.usersService.findAllCartOrders(filter, {
         page: +data.page,
         limit: +data.limit,
@@ -257,6 +258,71 @@ export class IUsers {
           count: userOrders.count,
           data: userOrders.rows ? userOrders.rows : [],
         },
+      };
+    } catch (error) {
+      return {
+        status: statusCode.INTERNAL_SERVER_ERROR,
+        message: l10n.t('SOMETHING_WENT_WRONG'),
+      };
+    }
+  }
+
+  async order(data: any) {
+    try {
+      const token: { id: string; name: string } = Container.get('auth-token');
+
+      const userFilter = { id: token.id };
+      const userAttributes = [
+        'name',
+        'email',
+        'id',
+        'isActive',
+        'deletedAt',
+        'createdAt',
+      ];
+      const user = await this.usersService.findOne(userFilter, userAttributes);
+      if (!user || !user.isActive || user.deletedAt) {
+        return {
+          status: statusCode.NOT_FOUND,
+          message: l10n.t('NOT_EXISTS', {
+            key: MODULE_NAME.USER,
+          }),
+        };
+      }
+
+      // to get cart products
+      const filter = { userId: user.id, id: { [Op.in]: data.orderIds } };
+      const userOrders = await this.usersService.findAllCartOrders(filter);
+
+      let orderDetails: any = {
+        totalPrice: 0,
+        orderUser: {},
+        productDetails: [],
+      };
+
+      // // to map response and provide order info
+      for (let cartItem of userOrders.rows) {
+        orderDetails.totalPrice += +cartItem.price;
+        orderDetails.orderUser = cartItem.orderUser;
+        orderDetails.productDetails.push({
+          quantity: cartItem.quantity,
+          price: +cartItem.price,
+          createdAt: cartItem.createdAt,
+          productInfo: {
+            productId: cartItem.orderProductInfo.productId,
+            name: cartItem.orderProductInfo.name,
+            price: +cartItem.orderProductInfo.price,
+          },
+        });
+      }
+
+      return {
+        status: statusCode.OK,
+        message: l10n.t('COMMON_SUCCESS_MESSAGE', {
+          key: MODULE_NAME.ORDER,
+          method: REQUEST_METHOD.PLACED,
+        }),
+        data: orderDetails,
       };
     } catch (error) {
       return {

@@ -1,8 +1,7 @@
-"use strict";
-const uuid = require("uuid");
-const bcrypt = require("bcrypt");
+'use strict';
+const uuid = require('uuid');
+const bcrypt = require('bcrypt');
 const crypto = require('crypto');
-
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -13,11 +12,11 @@ module.exports = {
         process.env.QP_USER_PASSWORD,
         salt
       );
-      await queryInterface.bulkInsert("users", [
+      await queryInterface.bulkInsert('users', [
         {
           id: `user_${this.generateUid()}`,
           name: this.encrypt(
-            process.env.QP_USER_EMAIL.split("@")[0],
+            process.env.QP_USER_EMAIL.split('@')[0],
             process.env.ENC_KEY,
             process.env.ENC_IV
           ),
@@ -33,15 +32,15 @@ module.exports = {
         },
       ]);
     } catch (error) {
-      console.log("seeder user-: ", error);
+      console.error('seeder user-: ', error);
     }
   },
 
   async down(queryInterface, Sequelize) {},
 
   generateUid(length = 10) {
-    let result = "";
-    const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+    let result = '';
+    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -51,12 +50,12 @@ module.exports = {
 
   encrypt(text, key, iv) {
     const cipher = crypto.createCipheriv(
-      "aes-256-cbc",
-      Buffer.from(key, "hex"),
-      Buffer.from(iv, "hex")
+      'aes-256-cbc',
+      Buffer.from(key, 'hex'),
+      Buffer.from(iv, 'hex')
     );
     let encrypted = cipher.update(text);
     encrypted = Buffer.concat([encrypted, cipher.final()]);
-    return encrypted.toString("hex");
+    return encrypted.toString('hex');
   },
 };

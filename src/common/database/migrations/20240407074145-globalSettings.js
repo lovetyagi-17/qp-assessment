@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     return queryInterface.createTable('globalSettings', {
       id: {
         type: Sequelize.STRING,
@@ -10,7 +10,7 @@ module.exports = {
         unique: true,
         primaryKey: true,
       },
-      
+
       underMaintenance: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
@@ -22,12 +22,12 @@ module.exports = {
     });
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     /**
      * Add reverting commands here.
      *
      * Example:
      * await queryInterface.dropTable('users');
      */
-  }
+  },
 };

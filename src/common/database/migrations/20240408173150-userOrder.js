@@ -2,7 +2,7 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     return queryInterface.createTable('userOrders', {
       id: {
         type: Sequelize.STRING,
@@ -15,24 +15,28 @@ module.exports = {
         type: Sequelize.STRING,
         references: {
           model: 'users',
-          key: 'id'
+          key: 'id',
         },
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       productId: {
         allowNull: false,
         type: Sequelize.STRING,
         references: {
           model: 'products',
-          key: 'id'
+          key: 'id',
         },
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
       },
       quantity: { type: Sequelize.INTEGER, allowNull: false, defaultValue: 0 },
       price: {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
-        defaultValue: 0.0
+        defaultValue: 0.0,
+      },
+      isActive: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true,
       },
       createdAt: { type: Sequelize.DATE, default: new Date() },
       updatedAt: { type: Sequelize.DATE, default: new Date() },
@@ -40,7 +44,7 @@ module.exports = {
     });
   },
 
-  async down (queryInterface, Sequelize) {
+  async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('userOrders');
-  }
+  },
 };

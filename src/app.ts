@@ -1,19 +1,19 @@
-import express from "express";
-import path from "path";
-import * as l10n from "jm-ez-l10n";
+import express from 'express';
+import path from 'path';
+import * as l10n from 'jm-ez-l10n';
 
-import config from "./common/config";
-import loaders from "./common/loaders";
-import routes from "./api/routes";
+import config from './common/config';
+import loaders from './common/loaders';
+import routes from './api/routes';
 
 async function startServer() {
   const app = express();
 
   await loaders({ expressApp: app });
-  app.use(express.static(path.join(__dirname, "public")));
+  app.use(express.static(path.join(__dirname, 'public')));
   l10n.setTranslationsFile(
-    "en",
-    __dirname + "/common/language/translation.en.json"
+    'en',
+    __dirname + '/common/language/translation.en.json'
   );
 
   app.listen(config.PORT, (err?: any) => {

@@ -165,7 +165,6 @@ describe('Add to Cart', function () {
       .end(function (error, result) {
         if (result && result._body) {
           const response = result._body;
-          console.log({ response });
 
           assert.strictEqual(typeof response, 'object');
           assert.strictEqual(response.status, statusCode.BAD_REQUEST);
@@ -186,7 +185,6 @@ describe('Add to Cart', function () {
       .end(function (error, result) {
         if (result && result._body) {
           const response = result._body;
-          console.log({ response });
 
           assert.strictEqual(typeof response, 'object');
           assert.strictEqual(response.status, statusCode.UNAUTHORISED);
@@ -208,7 +206,6 @@ describe('Add to Cart', function () {
       .end(function (error, result) {
         if (result && result._body) {
           const response = result._body;
-          console.log({ response });
 
           assert.strictEqual(typeof response, 'object');
           assert.strictEqual(response.status, statusCode.BAD_REQUEST);

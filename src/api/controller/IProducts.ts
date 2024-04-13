@@ -1,11 +1,11 @@
-import * as l10n from "jm-ez-l10n";
-import Container from "typedi";
+import * as l10n from 'jm-ez-l10n';
+import Container from 'typedi';
 
-import { MODULE_NAME, REQUEST_METHOD } from "../../common/utils/Constants";
-import HelperServices from "../../common/utils/Helpers";
-import { statusCode } from "../../common/utils/StatusCodes";
-import { Admin, Products } from "../../common/database/models";
-import { AdminsService, ProductsService } from "../services";
+import { MODULE_NAME, REQUEST_METHOD } from '../../common/utils/Constants';
+import HelperServices from '../../common/utils/Helpers';
+import { statusCode } from '../../common/utils/StatusCodes';
+import { Admin, Products } from '../../common/database/models';
+import { AdminsService, ProductsService } from '../services';
 
 export class IProducts {
   private readonly productService: ProductsService;
@@ -19,16 +19,16 @@ export class IProducts {
 
   async createProduct(data: any) {
     try {
-      const token: { id: string; name: string } = Container.get("auth-token");
+      const token: { id: string; name: string } = Container.get('auth-token');
 
       const filter = { id: token.id };
-      const attributes = ["id", "isActive", "deletedAt", "createdAt"];
+      const attributes = ['id', 'isActive', 'deletedAt', 'createdAt'];
 
       const admin: any = await this.adminService.findOne(filter, attributes);
       if (!admin || !admin.isActive || admin.deletedAt) {
         return {
           status: statusCode.NOT_FOUND,
-          message: l10n.t("NOT_EXISTS", {
+          message: l10n.t('NOT_EXISTS', {
             key: MODULE_NAME.ADMIN,
           }),
         };
@@ -42,7 +42,7 @@ export class IProducts {
 
       return {
         status: statusCode.OK,
-        message: l10n.t("COMMON_SUCCESS_MESSAGE", {
+        message: l10n.t('COMMON_SUCCESS_MESSAGE', {
           key: MODULE_NAME.PRODUCT,
           method: REQUEST_METHOD.POST,
         }),
@@ -51,23 +51,23 @@ export class IProducts {
     } catch (error) {
       return {
         status: statusCode.INTERNAL_SERVER_ERROR,
-        message: l10n.t("SOMETHING_WENT_WRONG"),
+        message: l10n.t('SOMETHING_WENT_WRONG'),
       };
     }
   }
 
   async getProductList(data: any) {
     try {
-      const token: { id: string; name: string } = Container.get("auth-token");
+      const token: { id: string; name: string } = Container.get('auth-token');
 
       const filter = { id: token.id };
-      const attributes = ["id", "isActive", "deletedAt", "createdAt"];
+      const attributes = ['id', 'isActive', 'deletedAt', 'createdAt'];
 
       const admin = await this.adminService.findOne(filter, attributes);
       if (!admin || !admin.isActive || admin.deletedAt) {
         return {
           status: statusCode.NOT_FOUND,
-          message: l10n.t("NOT_EXISTS", {
+          message: l10n.t('NOT_EXISTS', {
             key: MODULE_NAME.ADMIN,
           }),
         };
@@ -86,7 +86,7 @@ export class IProducts {
 
       return {
         status: statusCode.OK,
-        message: l10n.t("COMMON_SUCCESS_MESSAGE", {
+        message: l10n.t('COMMON_SUCCESS_MESSAGE', {
           key: MODULE_NAME.PRODUCT,
           method: REQUEST_METHOD.GET,
         }),
@@ -98,23 +98,23 @@ export class IProducts {
     } catch (error) {
       return {
         status: statusCode.INTERNAL_SERVER_ERROR,
-        message: l10n.t("SOMETHING_WENT_WRONG"),
+        message: l10n.t('SOMETHING_WENT_WRONG'),
       };
     }
   }
 
   async productDetails(data: any) {
     try {
-      const token: { id: string; name: string } = Container.get("auth-token");
+      const token: { id: string; name: string } = Container.get('auth-token');
 
       const filter = { id: token.id };
-      const attributes = ["id", "isActive", "deletedAt", "createdAt"];
+      const attributes = ['id', 'isActive', 'deletedAt', 'createdAt'];
 
       const admin = await this.adminService.findOne(filter, attributes);
       if (!admin || !admin.isActive || admin.deletedAt) {
         return {
           status: statusCode.NOT_FOUND,
-          message: l10n.t("NOT_EXISTS", {
+          message: l10n.t('NOT_EXISTS', {
             key: MODULE_NAME.ADMIN,
           }),
         };
@@ -125,7 +125,7 @@ export class IProducts {
 
       return {
         status: statusCode.OK,
-        message: l10n.t("COMMON_SUCCESS_MESSAGE", {
+        message: l10n.t('COMMON_SUCCESS_MESSAGE', {
           key: `${MODULE_NAME.PRODUCT} details`,
           method: REQUEST_METHOD.GET,
         }),
@@ -134,30 +134,30 @@ export class IProducts {
     } catch (error) {
       return {
         status: statusCode.INTERNAL_SERVER_ERROR,
-        message: l10n.t("SOMETHING_WENT_WRONG"),
+        message: l10n.t('SOMETHING_WENT_WRONG'),
       };
     }
   }
 
   async updateProduct(data: any) {
     try {
-      const token: { id: string; name: string } = Container.get("auth-token");
+      const token: { id: string; name: string } = Container.get('auth-token');
 
       const filter = { id: token.id };
-      const attributes = ["id", "isActive", "deletedAt", "createdAt"];
+      const attributes = ['id', 'isActive', 'deletedAt', 'createdAt'];
 
       const admin = await this.adminService.findOne(filter, attributes);
       if (!admin || !admin.isActive || admin.deletedAt) {
         return {
           status: statusCode.NOT_FOUND,
-          message: l10n.t("NOT_EXISTS", {
+          message: l10n.t('NOT_EXISTS', {
             key: MODULE_NAME.ADMIN,
           }),
         };
       }
 
       const productFilter = { id: data.id, isActive: true, deletedAt: null };
-      const productAttributes = ["id", "name", "isActive", "deletedAt"];
+      const productAttributes = ['id', 'name', 'isActive', 'deletedAt'];
 
       const product = await this.productService.findOne(
         productFilter,
@@ -166,7 +166,7 @@ export class IProducts {
       if (!product || !product.isActive || product.deletedAt) {
         return {
           status: statusCode.NOT_FOUND,
-          message: l10n.t("NOT_EXISTS", {
+          message: l10n.t('NOT_EXISTS', {
             key: MODULE_NAME.PRODUCT,
           }),
         };
@@ -175,8 +175,8 @@ export class IProducts {
       let dataToUpdate = data;
 
       // if quantity is set to 0, so updating product as out of stock
-      if ("quantity" in data && data.quantity == 0) {
-        "inStock" in data && data.inStock
+      if ('quantity' in data && data.quantity == 0) {
+        'inStock' in data && data.inStock
           ? (dataToUpdate.inStock = true)
           : (dataToUpdate.inStock = false);
       }
@@ -185,7 +185,7 @@ export class IProducts {
 
       return {
         status: statusCode.OK,
-        message: l10n.t("COMMON_SUCCESS_MESSAGE", {
+        message: l10n.t('COMMON_SUCCESS_MESSAGE', {
           key: MODULE_NAME.PRODUCT,
           method: REQUEST_METHOD.PUT,
         }),
@@ -193,30 +193,30 @@ export class IProducts {
     } catch (error) {
       return {
         status: statusCode.INTERNAL_SERVER_ERROR,
-        message: l10n.t("SOMETHING_WENT_WRONG"),
+        message: l10n.t('SOMETHING_WENT_WRONG'),
       };
     }
   }
 
   async removeProduct(data: any) {
     try {
-      const token: { id: string; name: string } = Container.get("auth-token");
+      const token: { id: string; name: string } = Container.get('auth-token');
 
       const filter = { id: token.id };
-      const attributes = ["id", "isActive", "deletedAt", "createdAt"];
+      const attributes = ['id', 'isActive', 'deletedAt', 'createdAt'];
 
       const admin = await this.adminService.findOne(filter, attributes);
       if (!admin || !admin.isActive || admin.deletedAt) {
         return {
           status: statusCode.NOT_FOUND,
-          message: l10n.t("NOT_EXISTS", {
+          message: l10n.t('NOT_EXISTS', {
             key: MODULE_NAME.ADMIN,
           }),
         };
       }
 
       const productFilter = { id: data.id, isActive: true, deletedAt: null };
-      const productAttributes = ["id", "name", "isActive", "deletedAt"];
+      const productAttributes = ['id', 'name', 'isActive', 'deletedAt'];
 
       const product = await this.productService.findOne(
         productFilter,
@@ -225,7 +225,7 @@ export class IProducts {
       if (!product || !product.isActive || product.deletedAt) {
         return {
           status: statusCode.NOT_FOUND,
-          message: l10n.t("NOT_EXISTS", {
+          message: l10n.t('NOT_EXISTS', {
             key: MODULE_NAME.PRODUCT,
           }),
         };
@@ -242,7 +242,7 @@ export class IProducts {
 
       return {
         status: statusCode.OK,
-        message: l10n.t("COMMON_SUCCESS_MESSAGE", {
+        message: l10n.t('COMMON_SUCCESS_MESSAGE', {
           key: MODULE_NAME.PRODUCT,
           method: REQUEST_METHOD.DELETE,
         }),
@@ -250,7 +250,7 @@ export class IProducts {
     } catch (error) {
       return {
         status: statusCode.INTERNAL_SERVER_ERROR,
-        message: l10n.t("SOMETHING_WENT_WRONG"),
+        message: l10n.t('SOMETHING_WENT_WRONG'),
       };
     }
   }

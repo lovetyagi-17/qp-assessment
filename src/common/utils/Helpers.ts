@@ -1,7 +1,7 @@
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import crypto from "crypto-js";
-import config from "../config";
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto-js';
+import config from '../config';
 
 export default class HelperServices {
   constructor() {}
@@ -11,8 +11,8 @@ export default class HelperServices {
   }
 
   generateUid(length = 10) {
-    let result = "";
-    const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+    let result = '';
+    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));

@@ -1,20 +1,20 @@
-import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
-import bcrypt from "bcryptjs";
+import { BuildOptions, DataTypes, Model, Sequelize } from 'sequelize';
+import bcrypt from 'bcryptjs';
 
-import { qpDecrypt, qpEncrypt } from "../../utils/Encryption";
-import config from "../../config";
+import { qpDecrypt, qpEncrypt } from '../../utils/Encryption';
+import config from '../../config';
 
 const SALT_WORK_FACTOR = 10;
 
 export const setEncrypt = (value) =>
-  value && value !== ""
+  value && value !== ''
     ? qpEncrypt(value, config.ENC_KEY, config.ENC_IV).toString()
-    : "";
+    : '';
 
 export const getDecrypt = (value) =>
-  value && value !== ""
+  value && value !== ''
     ? qpDecrypt(value, config.ENC_KEY, config.ENC_IV).toString()
-    : "";
+    : '';
 
 export interface AdminAttributes {
   id: string;
@@ -35,20 +35,20 @@ export type AdminStatic = typeof Model & {
 };
 
 export function AdminFactory(sequelize: Sequelize): AdminStatic {
-  const Admin = <AdminStatic>sequelize.define("admins", {
+  const Admin = <AdminStatic>sequelize.define('admins', {
     id: {
       type: DataTypes.STRING,
       primaryKey: true,
     },
     name: {
       type: DataTypes.STRING,
-      defaultValue: "",
+      defaultValue: '',
       set(value) {
         const setValue: any = setEncrypt(value);
-        this.setDataValue("name", setValue);
+        this.setDataValue('name', setValue);
       },
       get() {
-        const getValue = getDecrypt(this.getDataValue("name"));
+        const getValue = getDecrypt(this.getDataValue('name'));
         return getValue;
       },
     },
@@ -57,10 +57,10 @@ export function AdminFactory(sequelize: Sequelize): AdminStatic {
       allowNull: false,
       set(value) {
         const setValue: any = setEncrypt(value);
-        this.setDataValue("email", setValue);
+        this.setDataValue('email', setValue);
       },
       get() {
-        const getValue = getDecrypt(this.getDataValue("email"));
+        const getValue = getDecrypt(this.getDataValue('email'));
         return getValue;
       },
     },

@@ -1,4 +1,4 @@
-import { BuildOptions, DataTypes, Model, Sequelize } from "sequelize";
+import { BuildOptions, DataTypes, Model, Sequelize } from 'sequelize';
 
 export interface SettingsAttributes {
   id: string;
@@ -14,7 +14,7 @@ export type SettingsStatic = typeof Model & {
 };
 
 export function GlobalSettingFactory(sequelize: Sequelize): SettingsStatic {
-  const GlobalSetting = <SettingsStatic>sequelize.define("globalSettings", {
+  const GlobalSetting = <SettingsStatic>sequelize.define('globalSettings', {
     id: {
       type: DataTypes.STRING,
       primaryKey: true,
