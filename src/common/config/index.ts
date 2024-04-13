@@ -30,4 +30,11 @@ export default {
   DB_PORT: process.env.DB_PORT,
 
   SALT_WORK_FACTOR: +process.env.SALT_WORK_FACTOR,
+
+  /* QP admin Credentials */
+  QP_ADMIN_EMAIL: process.env.QP_ADMIN_EMAIL,
+  QP_ADMIN_PASSWORD: process.env.QP_ADMIN_PASSWORD,
+
+  QP_USER_EMAIL: process.env.QP_USER_EMAIL,
+  QP_USER_PASSWORD: process.env.QP_USER_PASSWORD,
 };
