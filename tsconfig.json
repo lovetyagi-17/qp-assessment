@@ -10,6 +10,7 @@
 
     /* Type Checking */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
-    "types": ["node", "express", "chai", "mocha"]
-  }
+    "outDir": "./build"
+  },
+  "types": ["node", "express", "chai", "mocha"]
 }

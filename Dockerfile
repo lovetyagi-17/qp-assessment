@@ -1,4 +1,4 @@
-FROM node:16.16.0-alpine3.15
+FROM node:16.13.1-alpine3.14
 
 WORKDIR /usr/src/app
 
@@ -6,14 +6,15 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install dependencies
+RUN npm cache clean --force
 RUN npm install
 
 # Copy the rest of the application code to the working directory
 COPY . .
 
-EXPOSE 3000
+EXPOSE 8080
 
 RUN npm run build
 
 
-CMD [ "npm", "run", "start:prod" ]
+CMD [ "npm", "run", "start" ]
